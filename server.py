@@ -3,7 +3,7 @@ import bottle
 import globalConfig
 from bottle import route, run, request, response, redirect, template, static_file
 
-@bottle.route("/time")
+@bottle.route("/")
 @bottle.view("joy.tpl")  
 def index() :
     print ("ok")
