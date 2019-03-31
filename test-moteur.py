@@ -1,7 +1,7 @@
 from time import sleep
 import RPi.GPIO as GPIO
 
-# test
+# test2
 
 MOTOR1_EN = 14
 MOTOR1_A = 20
