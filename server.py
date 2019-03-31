@@ -1,6 +1,6 @@
 import datetime
 import bottle
-import globalConfig
+import globalConfig, action
 from bottle import route, run, request, response, redirect, template, static_file
 
 @bottle.route("/")
@@ -22,7 +22,7 @@ def controls(cmd):
   if globalConfig.dir != cmd:
     globalConfig.dir = cmd
     print ("_____cmd:"+cmd)
-
+    action.action(cmd)
   return ''
 
 
@@ -41,5 +41,5 @@ def start():
   bottle.run(host='0.0.0.0', port=8080)
   return ''
 
-
+action.init()
 start()

@@ -59,18 +59,19 @@ ajaxRequest("/cmd/"+dirG, function(xhr){})
 			setInterval(function(){
 
 				var outputEl	= document.getElementById('result');
-				outputEl.innerHTML	= '<b>Result:</b> '
+				outputEl.innerHTML	= '<b>Result:</b>' + joystick.deltaX() +' '+joystick.deltaY()
 					+ (joystick.right()	? ' right'	: '')
 					+ (joystick.up()	? ' up'		: '')
 					+ (joystick.left()	? ' left'	: '')
 					+ (joystick.down()	? ' down'       : '')	
 
-				dir =  (joystick.right()     ? ' right'      : '')
-                                        + (joystick.up()        ? ' up'         : '')
-                                        + (joystick.left()      ? ' left'       : '')
-                                        + (joystick.down()      ? ' down'       : '')
+				dir =  (joystick.right()     ? 'right'      : '')
+                                        + (joystick.up()        ? 'up'         : '')
+                                        + (joystick.left()      ? 'left'       : '')
+                                        + (joystick.down()      ? 'down'       : '')
 
 				// test ici si la dir a changé avant d'envoyer
+
 if(joystick.deltaX() == 0 && joystick.deltaY() == 0)
 {
 dir = 'stop'
