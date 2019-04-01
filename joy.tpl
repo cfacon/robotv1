@@ -4,26 +4,6 @@
 		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
 		
 		<style>
-		body {
-			overflow	: hidden;
-			padding		: 0;
-			margin		: 0;
-			background-color: #BBB;
-		}
-		#info {
-			position	: absolute;
-			top		: 0px;
-			width		: 100%;
-			padding		: 5px;
-			text-align	: center;
-		}
-		#info a {
-			color		: #66F;
-			text-decoration	: none;
-		}
-		#info a:hover {
-			text-decoration	: underline;
-		}
 		#container {
 			width		: 100%;
 			height		: 100%;
@@ -36,10 +16,10 @@
 		</style>
 	</head>
 	<body>
-		<div id="container"></div>
 		<div id="info">
 			<span id="result"></span>
 		</div>
+		<div id="container"></div>
 
                 <script type="text/javascript" src="/assets/virtualjoystick.js/virtualjoystick.js"></script>
 		<script>
@@ -54,11 +34,14 @@ function ajaxRequest(url, callback = function(){}) {
   }
 			var dirG = ''
 
-			console.log("touchscreen is", VirtualJoystick.touchScreenAvailable() ? "available" : "not available");
-	
 			var joystick	= new VirtualJoystick({
 				container	: document.getElementById('container'),
 				mouseSupport	: true,
+				stationaryBase	: true,
+				baseX		: 200,
+				baseY		: 200,
+				limitStickTravel: true,
+				stickRadius: 50
 			});
 			joystick.addEventListener('touchStart', function(){
 				var outputEl	= document.getElementById('result');
@@ -76,20 +59,19 @@ ajaxRequest("/cmd/"+dirG, function(xhr){})
 			setInterval(function(){
 
 				var outputEl	= document.getElementById('result');
-				outputEl.innerHTML	= '<b>Result:</b> '
-					+ ' dx:'+joystick.deltaX()
-					+ ' dy:'+joystick.deltaY()
+				outputEl.innerHTML	= '<b>Result:</b>' + joystick.deltaX() +' '+joystick.deltaY()
 					+ (joystick.right()	? ' right'	: '')
 					+ (joystick.up()	? ' up'		: '')
 					+ (joystick.left()	? ' left'	: '')
 					+ (joystick.down()	? ' down'       : '')	
 
-				dir =  (joystick.right()     ? ' right'      : '')
-                                        + (joystick.up()        ? ' up'         : '')
-                                        + (joystick.left()      ? ' left'       : '')
-                                        + (joystick.down()      ? ' down'       : '')
+				dir =  (joystick.right()     ? 'right'      : '')
+                                        + (joystick.up()        ? 'up'         : '')
+                                        + (joystick.left()      ? 'left'       : '')
+                                        + (joystick.down()      ? 'down'       : '')
 
 				// test ici si la dir a changé avant d'envoyer
+
 if(joystick.deltaX() == 0 && joystick.deltaY() == 0)
 {
 dir = 'stop'

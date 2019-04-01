@@ -27,8 +27,10 @@ var VirtualJoystick	= function(opts)
 	
 	if(this._stationaryBase === true){
 		this._baseEl.style.display	= "";
-		this._baseEl.style.left		= (this._baseX - this._baseEl.width /2)+"px";
-		this._baseEl.style.top		= (this._baseY - this._baseEl.height/2)+"px";
+		//this._baseEl.style.left		= (this._baseX - this._baseEl.width /2)+"px";
+		//this._baseEl.style.top		= (this._baseY - this._baseEl.height/2)+"px";
+		this._baseEl.style.left		= (63 + this._baseEl.width /2)+"px";
+		this._baseEl.style.top		= (63 + this._baseEl.height/2)+"px";
 	}
     
 	this._transform	= this._useCssTransform ? this._getTransformProperty() : false;
