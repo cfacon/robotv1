@@ -2,6 +2,11 @@ import datetime
 import bottle
 import globalConfig, action
 from bottle import route, run, request, response, redirect, template, static_file
+import os.path, functools
+
+#abs_app_dir_path = os.path.dirname(os.path.realpath(__file__))
+#abs_views_path = os.path.join(abs_app_dir_path, 'views')
+bottle.TEMPLATE_PATH.insert(0, '/home/pi/robotRelease/robotv1/views')
 
 @bottle.route("/")
 @bottle.view("joy.tpl")
@@ -13,7 +18,7 @@ def index() :
 
 @bottle.route('/assets/<filepath:path>')
 def assets(filepath):
-  return static_file(filepath, root='assets/')
+  return static_file(filepath, root='/home/pi/robotRelease/robotv1/assets/')
 
 
 @route('/cmd/<cmd>')
