@@ -38,7 +38,7 @@ def controls(stick1x, stick1y, stick2x, stick2y):
 
 #bottle.run(bottle.app(), host='0.0.0.0', port=8080, debug= False, reloader=True)
 def start():
-  bottle.run(host='0.0.0.0', port=8080)
+  bottle.run(host='0.0.0.0', port=globalConfig.port)
   return ''
 
 action.init()

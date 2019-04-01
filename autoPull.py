@@ -3,7 +3,7 @@ import os
 import server as srv
 #import robotv1.server as srv
 
-#os.chdir("robotv1")
+os.chdir("/home/pi/robotRelease/robotv1")
 
 def git(*args):
     return subprocess.check_call(['git'] + list(args))
