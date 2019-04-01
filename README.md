@@ -15,7 +15,7 @@ After=multi-user.target
 
 [Service]
 Type=idle
-ExecStart=/usr/bin/python /home/pi/PrestaConsole/lcdordertrack.py > /home/pi/lcdordertrack.log 2>&1
+ExecStart=/usr/bin/python /home/pi/robotRelease/robotv1/autoPull.py > /home/pi/autoStartServer.log 2 > &1
 
 [Install]
 WantedBy=multi-user.target
@@ -23,13 +23,13 @@ WantedBy=multi-user.target
 
 met les bon droits
 ```
-sudo chmod 644 /lib/systemd/system/myscript.service
+sudo chmod 644 /lib/systemd/system/autoStartServer.service
 ```
 
 Active le service
 ```
 sudo systemctl daemon-reload
-sudo systemctl enable myscript.service
+sudo systemctl enable autoStartServer.service
 ```
 
 Reboot pour tester
@@ -39,11 +39,11 @@ sudo reboot
 
 Voir son etat :
 ```
-sudo systemctl status lcdordertrack.service
+sudo systemctl status autoStartServer.service
 ```
 
 
 Si besoin permet de démarrer le service après modification ou ajustement:
 ```
-sudo systemctl start lcdordertrack.service
+sudo systemctl start autoStartServer.service
 ```
