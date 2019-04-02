@@ -66,7 +66,7 @@ def stop():
 def left():
     print("moteur left")
     GPIO.output(MOTOR1_EN, GPIO.HIGH)
-    GPIO.output(MOTOR1_A, GPIO.HIGH)
+    GPIO.output(MOTOR1_A, GPIO.LOW)
     GPIO.output(MOTOR1_B, GPIO.HIGH)
 
     GPIO.output(MOTOR2_EN, GPIO.HIGH)
@@ -77,11 +77,11 @@ def right():
     print("moteur right")
     GPIO.output(MOTOR1_EN, GPIO.HIGH)
     GPIO.output(MOTOR1_A, GPIO.HIGH)
-    GPIO.output(MOTOR1_B, GPIO.HIGH)
+    GPIO.output(MOTOR1_B, GPIO.LOW)
 
     GPIO.output(MOTOR2_EN, GPIO.HIGH)
-    GPIO.output(MOTOR2_A, GPIO.HIGH)
-    GPIO.output(MOTOR2_B, GPIO.LOW)
+    GPIO.output(MOTOR2_A, GPIO.LOW)
+    GPIO.output(MOTOR2_B, GPIO.HIGH)
 
 #try
 #except:
