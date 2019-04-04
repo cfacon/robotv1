@@ -1,8 +1,17 @@
 import datetime
 import bottle
-import globalConfig, action
+#import globalConfig, action
+import action
 from bottle import route, run, request, response, redirect, template, static_file
 import os.path, functools
+try:
+    import configparser as cp
+except ImportError:
+    import ConfigParser as cp
+
+
+globalConfig = cp.ConfigParser()
+globalConfig.read('./globalConfig.cfg')
 
 #abs_app_dir_path = os.path.dirname(os.path.realpath(__file__))
 #abs_views_path = os.path.join(abs_app_dir_path, 'views')
@@ -12,9 +21,46 @@ bottle.TEMPLATE_PATH.insert(0, '/home/pi/robotRelease/robotv1/views')
 @bottle.view("joy.tpl")
 def index() :
   print ("ok")
-  heure = datetime.datetime.now().strftime("<p>Nous sommes le %d/%m/%Y, il est %H:%M:%S</p>")
-  return {"title":"Horloge", "body" : heure}
-#  return ''
+#  return {"title":"robot", "body" : ""}
+  return {"title":"robot",
+                "body" : "",
+                "moteur1_enA" : globalConfig['gpio']['moteur1_enA']
+        }
+
+
+
+@bottle.route("/settings")
+@bottle.view("settings.tpl")
+def settings() :
+  print ("ok")
+  ip = bottle.request.forms.get('ip')
+
+  return {"title":"robot settings", 
+		"body" : ip,
+                "moteur1_enA" : globalConfig['gpio']['moteur1_enA']
+	}
+
+@bottle.route("/settings", method='POST')
+@bottle.view("settings.tpl")
+def settings() :
+  print ("ok")
+  ip = bottle.request.forms.get('ip')
+
+  globalConfig['gpio']['moteur1_enA'] = bottle.request.forms.get('moteur1_enA')
+
+  #Ecrire le fichier de configuration
+  with open('globalConfig.cfg','w') as settings:
+      globalConfig.write(settings)
+
+  return {"title":"robot settings",
+                "body" : ip,
+                "moteur1_enA" : globalConfig['gpio']['moteur1_enA']
+        }
+
+
+#  return {"title":"robot settings", "body" : ip}
+
+
 
 @bottle.route('/assets/<filepath:path>')
 def assets(filepath):
@@ -31,20 +77,9 @@ def controls(cmd):
   return ''
 
 
-@route('/controls/<stick1x>/<stick1y>/<stick2x>/<stick2y>')
-def controls(stick1x, stick1y, stick2x, stick2y):
-  print (stick1x + stick1y + stick2x + stick2y)
-  globalConfig.leftJoystickX = int(stick1x)
-  globalConfig.leftJoystickY = int(stick1y)
-  globalConfig.rightJoystickX = int(stick2x)
-  globalConfig.rightJoystickY = int(stick2y)
-  globalConfig.lastHTTPrequest = time.time()
-  return 'stick1x = ' + stick1x + " stick1y = " + stick1y + " stick2x = " + stick2x + " stick2y = " + stick2y
-
-#bottle.run(bottle.app(), host='0.0.0.0', port=8080, debug= False, reloader=True)
 def start():
-  bottle.run(host='0.0.0.0', port=globalConfig.port)
+  bottle.run(host='0.0.0.0', port=globalConfig['server']['port'])
+  action.init()
+  #start()
   return ''
 
-action.init()
-start()

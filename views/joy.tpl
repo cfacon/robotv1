@@ -18,6 +18,7 @@
 	<body>
 		<div id="info">
 			<span id="result"></span>
+			<span><a href="/settings">settings</a></span>
 		</div>
 		<div id="container"></div>
 
