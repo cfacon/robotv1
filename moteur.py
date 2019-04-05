@@ -36,6 +36,8 @@ def init():
 def up():
     # a 20% de sa vitesse
     print("moteur up")
+    GPIO.setmode(GPIO.BCM)
+
     GPIO.output(MOTOR1_EN, GPIO.HIGH)
     GPIO.output(MOTOR1_A, GPIO.HIGH)
     GPIO.output(MOTOR1_B, GPIO.LOW)

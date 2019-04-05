@@ -2,8 +2,9 @@
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
-		
-		<style>
+		<link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css" integrity="sha384-nn4HPE8lTHyVtfCBi5yW9d20FjT8BJwUXyWZT9InLYax14RDjBj46LmSztkmNP9w" crossorigin="anonymous">		
+		<meta name="viewport" content="width=device-width, initial-scale=1">		
+<style>
 		#container {
 			width		: 100%;
 			height		: 100%;
@@ -17,8 +18,8 @@
 	</head>
 	<body>
 		<div id="info">
-			<span id="result"></span>
 			<span><a href="/settings">settings</a></span>
+			<span id="result"></span>
 		</div>
 		<div id="container"></div>
 
@@ -60,23 +61,28 @@ ajaxRequest("/cmd/"+dirG, function(xhr){})
 			setInterval(function(){
 
 				var outputEl	= document.getElementById('result');
-				outputEl.innerHTML	= '<b>Result:</b>' + joystick.deltaX() +' '+joystick.deltaY()
-					+ (joystick.right()	? ' right'	: '')
-					+ (joystick.up()	? ' up'		: '')
-					+ (joystick.left()	? ' left'	: '')
-					+ (joystick.down()	? ' down'       : '')	
 
-				dir =  (joystick.right()     ? 'right'      : '')
-                                        + (joystick.up()        ? 'up'         : '')
-                                        + (joystick.left()      ? 'left'       : '')
-                                        + (joystick.down()      ? 'down'       : '')
 
-				// test ici si la dir a changé avant d'envoyer
+		if( joystick.right() ){
+			outputEl.innerHTML	= '<b>Result: right</b>'
+			dir = 'right'
+		}
+		if( joystick.left() ){
+			outputEl.innerHTML	= '<b>Result: left</b>'
+			dir = 'left'
+		}
+		if( joystick.up() ){
+			outputEl.innerHTML	= '<b>Result: up</b>'
+			dir = 'up'
+		}
+		if( joystick.down() ){
+			outputEl.innerHTML	= '<b>Result: down</b>'
+			dir = 'down'
+		}
 
 if(joystick.deltaX() == 0 && joystick.deltaY() == 0)
 {
 dir = 'stop'
-				outputEl.innerHTML	= '<b>Stop</b> '
 }
 
 if (dirG != dir)

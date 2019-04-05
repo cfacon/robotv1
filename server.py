@@ -11,7 +11,7 @@ except ImportError:
 
 
 globalConfig = cp.ConfigParser()
-globalConfig.read('./globalConfig.cfg')
+globalConfig.read('/home/pi/robotRelease/robotv1/globalConfig.cfg')
 
 #abs_app_dir_path = os.path.dirname(os.path.realpath(__file__))
 #abs_views_path = os.path.join(abs_app_dir_path, 'views')
@@ -21,10 +21,11 @@ bottle.TEMPLATE_PATH.insert(0, '/home/pi/robotRelease/robotv1/views')
 @bottle.view("joy.tpl")
 def index() :
   print ("ok")
-#  return {"title":"robot", "body" : ""}
   return {"title":"robot",
                 "body" : "",
-                "moteur1_enA" : globalConfig['gpio']['moteur1_enA']
+                "moteur1_enA" : globalConfig['gpio']['moteur1_enA'],
+                "moteur1_en1" : globalConfig['gpio']['moteur1_en1'],
+                "moteur1_en2" : globalConfig['gpio']['moteur1_en2']
         }
 
 
@@ -37,7 +38,9 @@ def settings() :
 
   return {"title":"robot settings", 
 		"body" : ip,
-                "moteur1_enA" : globalConfig['gpio']['moteur1_enA']
+                "moteur1_enA" : globalConfig['gpio']['moteur1_enA'],
+                "moteur1_en1" : globalConfig['gpio']['moteur1_en1'],
+                "moteur1_en2" : globalConfig['gpio']['moteur1_en2']
 	}
 
 @bottle.route("/settings", method='POST')
@@ -45,8 +48,10 @@ def settings() :
 def settings() :
   print ("ok")
   ip = bottle.request.forms.get('ip')
-
   globalConfig['gpio']['moteur1_enA'] = bottle.request.forms.get('moteur1_enA')
+  globalConfig['gpio']['moteur1_en1'] = bottle.request.forms.get('moteur1_en1')
+  globalConfig['gpio']['moteur1_en2'] = bottle.request.forms.get('moteur1_en2')
+
 
   #Ecrire le fichier de configuration
   with open('globalConfig.cfg','w') as settings:
@@ -54,12 +59,10 @@ def settings() :
 
   return {"title":"robot settings",
                 "body" : ip,
-                "moteur1_enA" : globalConfig['gpio']['moteur1_enA']
+                "moteur1_enA" : globalConfig['gpio']['moteur1_enA'],
+                "moteur1_en1" : globalConfig['gpio']['moteur1_en1'],
+                "moteur1_en2" : globalConfig['gpio']['moteur1_en2']
         }
-
-
-#  return {"title":"robot settings", "body" : ip}
-
 
 
 @bottle.route('/assets/<filepath:path>')
@@ -70,8 +73,8 @@ def assets(filepath):
 @route('/cmd/<cmd>')
 def controls(cmd):
 
-  if globalConfig.dir != cmd:
-    globalConfig.dir = cmd
+  if globalConfig['general']['dir'] != cmd:
+    globalConfig['general']['dir'] = cmd
     print ("_____cmd:"+cmd)
     action.action(cmd)
   return ''
