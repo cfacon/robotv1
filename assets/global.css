@@ -1,0 +1,29 @@
+.left{
+  display: block;
+  float:left;
+  width: 100px;
+}
+
+.right{
+  display: block;
+  float:right;
+  width: 100px;
+}
+.container{
+  margin:5px;
+}
+.leftright{
+    bottom:0;
+    margin: 0 5px 5px 5px;
+}
+
+#container {
+                        width           : 100%;
+                        height          : 100%;
+                        overflow        : hidden;
+                        padding         : 0;
+                        margin          : 0;
+                        -webkit-user-select     : none;
+                        -moz-user-select        : none;
+                }
+

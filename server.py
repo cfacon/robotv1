@@ -25,7 +25,10 @@ def index() :
                 "body" : "",
                 "moteur1_enA" : globalConfig['gpio']['moteur1_enA'],
                 "moteur1_en1" : globalConfig['gpio']['moteur1_en1'],
-                "moteur1_en2" : globalConfig['gpio']['moteur1_en2']
+                "moteur1_en2" : globalConfig['gpio']['moteur1_en2'],
+                "moteur2_enB" : globalConfig['gpio']['moteur2_enB'],
+                "moteur2_en1" : globalConfig['gpio']['moteur2_en1'],
+                "moteur2_en2" : globalConfig['gpio']['moteur2_en2']
         }
 
 
@@ -40,7 +43,10 @@ def settings() :
 		"body" : ip,
                 "moteur1_enA" : globalConfig['gpio']['moteur1_enA'],
                 "moteur1_en1" : globalConfig['gpio']['moteur1_en1'],
-                "moteur1_en2" : globalConfig['gpio']['moteur1_en2']
+                "moteur1_en2" : globalConfig['gpio']['moteur1_en2'],
+                "moteur2_enB" : globalConfig['gpio']['moteur2_enB'],
+                "moteur2_en1" : globalConfig['gpio']['moteur2_en1'],
+                "moteur2_en2" : globalConfig['gpio']['moteur2_en2']
 	}
 
 @bottle.route("/settings", method='POST')
@@ -51,6 +57,9 @@ def settings() :
   globalConfig['gpio']['moteur1_enA'] = bottle.request.forms.get('moteur1_enA')
   globalConfig['gpio']['moteur1_en1'] = bottle.request.forms.get('moteur1_en1')
   globalConfig['gpio']['moteur1_en2'] = bottle.request.forms.get('moteur1_en2')
+  globalConfig['gpio']['moteur2_enB'] = bottle.request.forms.get('moteur2_enB')
+  globalConfig['gpio']['moteur2_en1'] = bottle.request.forms.get('moteur2_en1')
+  globalConfig['gpio']['moteur2_en2'] = bottle.request.forms.get('moteur2_en2')
 
 
   #Ecrire le fichier de configuration
@@ -61,7 +70,10 @@ def settings() :
                 "body" : ip,
                 "moteur1_enA" : globalConfig['gpio']['moteur1_enA'],
                 "moteur1_en1" : globalConfig['gpio']['moteur1_en1'],
-                "moteur1_en2" : globalConfig['gpio']['moteur1_en2']
+                "moteur1_en2" : globalConfig['gpio']['moteur1_en2'],
+                "moteur2_enB" : globalConfig['gpio']['moteur2_enB'],
+                "moteur2_en1" : globalConfig['gpio']['moteur2_en1'],
+                "moteur2_en2" : globalConfig['gpio']['moteur2_en2']
         }
 
 
