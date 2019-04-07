@@ -11,8 +11,9 @@
 		<div id="info" class="leftright">
 <span class="left">
 <a class="pure-button" href="/settings">
-    <i class="fa fa-cog"></i>
-</a>
+    <i class="fa fa-cog"></i> </a> 
+<button class="pure-button fas fa-stop" onclick="stop()"> stop</button>
+
 </span>
 <span class="right" id="result"></span>
 </div>
@@ -29,6 +30,11 @@ function ajaxRequest(url, callback = function(){}) {
     xhr.open("GET", url, true);
     xhr.send(null);
   }
+
+function stop()
+{
+	ajaxRequest("/cmd/stop", function(xhr){})
+}
 			var dirG = ''
 
 			var joystick	= new VirtualJoystick({

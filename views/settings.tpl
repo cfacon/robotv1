@@ -28,8 +28,8 @@
         </div>
 <legend>GPIO moteur 2</legend>
         <div class="pure-control-group">
-            <label for="moteur2_enA">enB</label>
-            <input name="moteur2_enA" id="moteur2_enA" class="pure-input-1-4" type="text" placeholder="XX" value={{!moteur2_enB}}>
+            <label for="moteur2_enB">enB</label>
+            <input name="moteur2_enB" id="moteur2_enB" class="pure-input-1-4" type="text" placeholder="XX" value={{!moteur2_enB}}>
         </div>
         <div class="pure-control-group">
             <label for="moteur2_en1">en1</label>
@@ -38,6 +38,12 @@
         <div class="pure-control-group">
             <label for="moteur2_en2">en2</label>
             <input name="moteur2_en2" id="moteur2_en2" class="pure-input-1-4" type="text" placeholder="XX" value={{!moteur2_en2}}>
+        </div>
+
+<legend>divers</legend>
+        <div class="pure-control-group">
+            <label for="vitesse">vitesse</label>
+            <input name="vitesse" id="vitesse" class="pure-input-1-4" type="text" placeholder="XX" value={{!vitesse}}>
         </div>
 
 

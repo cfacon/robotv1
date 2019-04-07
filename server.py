@@ -23,6 +23,7 @@ def index() :
   print ("ok")
   return {"title":"robot",
                 "body" : "",
+                "vitesse" : globalConfig['divers']['vitesse'],
                 "moteur1_enA" : globalConfig['gpio']['moteur1_enA'],
                 "moteur1_en1" : globalConfig['gpio']['moteur1_en1'],
                 "moteur1_en2" : globalConfig['gpio']['moteur1_en2'],
@@ -41,6 +42,7 @@ def settings() :
 
   return {"title":"robot settings", 
 		"body" : ip,
+                "vitesse" : globalConfig['divers']['vitesse'],
                 "moteur1_enA" : globalConfig['gpio']['moteur1_enA'],
                 "moteur1_en1" : globalConfig['gpio']['moteur1_en1'],
                 "moteur1_en2" : globalConfig['gpio']['moteur1_en2'],
@@ -54,6 +56,7 @@ def settings() :
 def settings() :
   print ("ok")
   ip = bottle.request.forms.get('ip')
+  globalConfig['divers']['vitesse'] = bottle.request.forms.get('vitesse')
   globalConfig['gpio']['moteur1_enA'] = bottle.request.forms.get('moteur1_enA')
   globalConfig['gpio']['moteur1_en1'] = bottle.request.forms.get('moteur1_en1')
   globalConfig['gpio']['moteur1_en2'] = bottle.request.forms.get('moteur1_en2')
@@ -68,6 +71,7 @@ def settings() :
 
   return {"title":"robot settings",
                 "body" : ip,
+                "vitesse" : globalConfig['divers']['vitesse'],
                 "moteur1_enA" : globalConfig['gpio']['moteur1_enA'],
                 "moteur1_en1" : globalConfig['gpio']['moteur1_en1'],
                 "moteur1_en2" : globalConfig['gpio']['moteur1_en2'],
