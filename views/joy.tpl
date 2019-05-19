@@ -16,11 +16,14 @@
 
 </span>
 <span class="right" id="result"></span>
+<span class="right" id="resultmouse">--</span>
 </div>
 		<div id="container"></div>
 
                 <script type="text/javascript" src="/assets/virtualjoystick.js/virtualjoystick.js"></script>
 		<script>
+var dirG = ''
+var isStop = 'true'
 
 function ajaxRequest(url, callback = function(){}) {
     var xhr = new XMLHttpRequest();
@@ -33,9 +36,23 @@ function ajaxRequest(url, callback = function(){}) {
 
 function stop()
 {
-	ajaxRequest("/cmd/stop", function(xhr){})
+isStop = 'true'
+
+var joystick	= new VirtualJoystick({
+				container	: document.getElementById('container'),
+				mouseSupport	: true,
+				stationaryBase	: true,
+				baseX		: 200,
+				baseY		: 200,
+				limitStickTravel: true,
+				stickRadius: 50
+			});
+
+var outputEl	= document.getElementById('result');
+				outputEl.innerHTML = '<b>stop button</b> '
+	ajaxRequest("/cmd/1", function(xhr){})
 }
-			var dirG = ''
+			
 
 			var joystick	= new VirtualJoystick({
 				container	: document.getElementById('container'),
@@ -47,50 +64,53 @@ function stop()
 				stickRadius: 50
 			});
 			joystick.addEventListener('touchStart', function(){
-				var outputEl	= document.getElementById('result');
+				var outputEl	= document.getElementById('resultmouse');
 				outputEl.innerHTML = '<b>start</b> '
 			})
 			joystick.addEventListener('touchEnd', function(){
-				var outputEl	= document.getElementById('result');
-				outputEl.innerHTML = '<b>stop</b> '
-this.dirG = 'stop'
-ajaxRequest("/cmd/"+dirG, function(xhr){})
-
-
+				var outputEl	= document.getElementById('resultmouse');
+				outputEl.innerHTML = '<b>touchEnd stop</b> '
+//                this.dirG = 'stop'
+                //ajaxRequest("/cmd/stop", function(xhr){})
 			})
+			joystick.addEventListener('mouseUp', function(){
+				var outputEl	= document.getElementById('resultmouse');
+				outputEl.innerHTML = '<b>mouseUp stop</b> '
+                this.dirG = '1'
+                ajaxRequest("/cmd/1", function(xhr){})
+			})
+			joystick.addEventListener('mouseDown', function(){
+				var outputEl	= document.getElementById('resultmouse');
+				outputEl.innerHTML = '<b>mouseUp stop</b> '
+                this.dirG = '1'
+                ajaxRequest("/cmd/1", function(xhr){})
+			})
+            
 
 			setInterval(function(){
 
 				var outputEl	= document.getElementById('result');
 
+        if( joystick.right() ){
+            dir = '5'
+        }
+        if( joystick.left() ){
+            dir = '4'
+        }
+        if( joystick.up() ){
+            dir = '2'
+        }
+        if( joystick.down() ){
+            dir = '3'
+        }
+        if (dirG != dir)
+        {
+            isStop = 'false'
 
-		if( joystick.right() ){
-			outputEl.innerHTML	= '<b>Result: right</b>'
-			dir = 'right'
-		}
-		if( joystick.left() ){
-			outputEl.innerHTML	= '<b>Result: left</b>'
-			dir = 'left'
-		}
-		if( joystick.up() ){
-			outputEl.innerHTML	= '<b>Result: up</b>'
-			dir = 'up'
-		}
-		if( joystick.down() ){
-			outputEl.innerHTML	= '<b>Result: down</b>'
-			dir = 'down'
-		}
-
-if(joystick.deltaX() == 0 && joystick.deltaY() == 0)
-{
-dir = 'stop'
-}
-
-if (dirG != dir)
-{
-this.dirG = dir;                                
-ajaxRequest("/cmd/"+dirG, function(xhr){})
-}
+            dirG = dir;
+             outputEl.innerHTML	= '<b>Result: '+ dir +'</b>'
+            ajaxRequest("/cmd/"+dirG, function(xhr){})
+        }
 
 			}, 1/30 * 100);
 		</script>

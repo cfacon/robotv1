@@ -1,92 +1,57 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+#/dev/ttyUSB0
+
+import serial
 from time import sleep
-import RPi.GPIO as GPIO
-import globalConfig
 
-MOTOR1_EN = globalConfig.moteur1_enA
-MOTOR1_A = globalConfig.moteur1_en1
-MOTOR1_B = globalConfig.moteur1_en2
 
-MOTOR2_EN = globalConfig.moteur2_enB
-MOTOR2_A = globalConfig.moteur2_en1
-MOTOR2_B = globalConfig.moteur2_en2
 
+FREQUENCE = 30
+VITESSE = 100
+ser = serial.Serial('/dev/ttyUSB0', 9600)
+
+flag = 0
+while(true)
+    print(ser.readline())  #on affiche la réponse
+    print "on attend 3s que l'arduino se prepare"    
+#    sleep(4)   #on attend un peu, pour que l'Arduino soit prêt.
+    
+    
 def init():
-    #test nettoyage
-    GPIO.cleanup()
-
-    # Configure les pins
-    GPIO.setmode(GPIO.BCM)
-
-    GPIO.setup(MOTOR1_EN, GPIO.OUT)
-    GPIO.setup(MOTOR1_A, GPIO.OUT)
-    GPIO.setup(MOTOR1_B, GPIO.OUT)
-
-    GPIO.setup(MOTOR2_EN, GPIO.OUT)
-    GPIO.setup(MOTOR2_A, GPIO.OUT)
-    GPIO.setup(MOTOR2_B, GPIO.OUT)
-
-    # 0/100% pour la vitesse
-    motor1GPIO = GPIO.PWM(MOTOR1_EN, 50)
-    motor2GPIO = GPIO.PWM(MOTOR2_EN, 50)
-
-    motor1GPIO.start(globalConfig.moteur_vitesse)
-    motor2GPIO.start(globalConfig.moteur_vitesse)
+    print "on attend 3s que l'arduino se prepare"    
+    #ser = serial.Serial('/dev/ttyUSB0', 9600)
 
     # AVANCE
+def speed(speed):
+    print("---change moteur vitesse")
+    ser.write(speed)
+    print(ser.readline())  #on affiche la réponse
+
 def up():
-    # a 20% de sa vitesse
-    print("moteur up")
-    GPIO.setmode(GPIO.BCM)
-
-    GPIO.output(MOTOR1_EN, GPIO.HIGH)
-    GPIO.output(MOTOR1_A, GPIO.HIGH)
-    GPIO.output(MOTOR1_B, GPIO.LOW)
-
-    GPIO.output(MOTOR2_EN, GPIO.HIGH)
-    GPIO.output(MOTOR2_A, GPIO.HIGH)
-    GPIO.output(MOTOR2_B, GPIO.LOW)
-
+    print("---moteur up")
+    ser.write(str.encode('2'))
+    print(ser.readline())  #on affiche la réponse
+    
+    
 def down():
-    # a 20% de sa vitesse
-    print("moteur down")
-    GPIO.output(MOTOR1_EN, GPIO.HIGH)
-    GPIO.output(MOTOR1_B, GPIO.HIGH)
-    GPIO.output(MOTOR1_A, GPIO.LOW)
- 
-    GPIO.output(MOTOR2_EN, GPIO.HIGH)
-    GPIO.output(MOTOR2_B, GPIO.HIGH)
-    GPIO.output(MOTOR2_A, GPIO.LOW)
+    print("---moteur down")
+    ser.write(str.encode('3'))
+    print(ser.readline())  #on affiche la réponse
 
-    # Stoppe et freine les moteurs pendant une seconde
+
 def stop():
     print("moteur stop")
-    GPIO.output(MOTOR1_EN, GPIO.LOW)
-    GPIO.output(MOTOR2_EN, GPIO.LOW)
-    #sleep(1)
-
-    # TOURNE A GAUCHE
+    ser.write(str.encode('1'))
+    print(ser.readline())  #on affiche la réponse
+    
 def left():
     print("moteur left")
-    GPIO.output(MOTOR1_EN, GPIO.HIGH)
-    GPIO.output(MOTOR1_A, GPIO.LOW)
-    GPIO.output(MOTOR1_B, GPIO.HIGH)
-
-    GPIO.output(MOTOR2_EN, GPIO.HIGH)
-    GPIO.output(MOTOR2_A, GPIO.HIGH)
-    GPIO.output(MOTOR2_B, GPIO.LOW)
+    ser.write(str.encode('6'))
+    print(ser.readline())  #on affiche la réponse
 
 def right():
     print("moteur right")
-    GPIO.output(MOTOR1_EN, GPIO.HIGH)
-    GPIO.output(MOTOR1_A, GPIO.HIGH)
-    GPIO.output(MOTOR1_B, GPIO.LOW)
-
-    GPIO.output(MOTOR2_EN, GPIO.HIGH)
-    GPIO.output(MOTOR2_A, GPIO.LOW)
-    GPIO.output(MOTOR2_B, GPIO.HIGH)
-
-#try
-#except:
-#  GPIO.cleanup()
-#  raise
+    ser.write(str.encode('7'))
+    print(ser.readline())  #on affiche la réponse
 
