@@ -46,6 +46,8 @@ def on_connect(client, data, flags, rc):
    
     
 def action(cmd):
+  # on stop avant chaque cmd
+    
   print ("cmd=",cmd)
     
   if cmd == "4":
@@ -59,6 +61,10 @@ def action(cmd):
     ser.write(str.encode('2'))
   elif cmd == "3":
     ser.write(str.encode('3'))
+  elif cmd == "6":
+    ser.write(str.encode('6'))
+  elif cmd == "7":
+    ser.write(str.encode('7'))
   else:
     ser.write(str.encode(cmd))
 

@@ -92,10 +92,10 @@ var outputEl	= document.getElementById('result');
 				var outputEl	= document.getElementById('result');
 
         if( joystick.right() ){
-            dir = '5'
+            dir = '7'
         }
         if( joystick.left() ){
-            dir = '4'
+            dir = '6'
         }
         if( joystick.up() ){
             dir = '2'

@@ -30,6 +30,7 @@ import paho.mqtt.publish as publish
 #debut test sonar
 #import RPi.GPIO as GPIO
 import time
+import subprocess
 
 
 #fin test sonar
@@ -44,20 +45,22 @@ globalConfig.read('/home/pi/robotRelease/robotv1/globalConfig.cfg')
 bottle.TEMPLATE_PATH.insert(0, '/home/pi/robotRelease/robotv1/views')
 
 @bottle.route("/")
+@bottle.view("index.tpl")
+def index() :
+  print ("ok")
+  return {"title":"robot",
+                "body" : "",
+                "vitesse" : globalConfig['divers']['vitesse']
+        }
+
+@bottle.route("/joy")
 @bottle.view("joy.tpl")
 def index() :
   print ("ok")
   return {"title":"robot",
                 "body" : "",
-                "vitesse" : globalConfig['divers']['vitesse'],
-                "moteur1_enA" : globalConfig['gpio']['moteur1_enA'],
-                "moteur1_en1" : globalConfig['gpio']['moteur1_en1'],
-                "moteur1_en2" : globalConfig['gpio']['moteur1_en2'],
-                "moteur2_enB" : globalConfig['gpio']['moteur2_enB'],
-                "moteur2_en1" : globalConfig['gpio']['moteur2_en1'],
-                "moteur2_en2" : globalConfig['gpio']['moteur2_en2']
+                "vitesse" : globalConfig['divers']['vitesse']
         }
-
 
 
 @bottle.route("/settings")
@@ -68,13 +71,7 @@ def settings() :
 
   return {"title":"robot settings", 
 		"body" : ip,
-                "vitesse" : globalConfig['divers']['vitesse'],
-                "moteur1_enA" : globalConfig['gpio']['moteur1_enA'],
-                "moteur1_en1" : globalConfig['gpio']['moteur1_en1'],
-                "moteur1_en2" : globalConfig['gpio']['moteur1_en2'],
-                "moteur2_enB" : globalConfig['gpio']['moteur2_enB'],
-                "moteur2_en1" : globalConfig['gpio']['moteur2_en1'],
-                "moteur2_en2" : globalConfig['gpio']['moteur2_en2']
+                "vitesse" : globalConfig['divers']['vitesse']
 	}
 
 @bottle.route("/settings", method='POST')
@@ -87,12 +84,7 @@ def settings() :
   # envois a l'arduino la nouvelle vitesse
   publish.single("robot/commande", globalConfig['divers']['vitesse'], hostname="localhost")
 
-  globalConfig['gpio']['moteur1_enA'] = bottle.request.forms.get('moteur1_enA')
-  globalConfig['gpio']['moteur1_en1'] = bottle.request.forms.get('moteur1_en1')
-  globalConfig['gpio']['moteur1_en2'] = bottle.request.forms.get('moteur1_en2')
-  globalConfig['gpio']['moteur2_enB'] = bottle.request.forms.get('moteur2_enB')
-  globalConfig['gpio']['moteur2_en1'] = bottle.request.forms.get('moteur2_en1')
-  globalConfig['gpio']['moteur2_en2'] = bottle.request.forms.get('moteur2_en2')
+  #globalConfig['gpio']['moteur1_enA'] = bottle.request.forms.get('moteur1_enA')
 
 
   #Ecrire le fichier de configuration
@@ -102,12 +94,7 @@ def settings() :
   return {"title":"robot settings",
                 "body" : ip,
                 "vitesse" : globalConfig['divers']['vitesse'],
-                "moteur1_enA" : globalConfig['gpio']['moteur1_enA'],
-                "moteur1_en1" : globalConfig['gpio']['moteur1_en1'],
-                "moteur1_en2" : globalConfig['gpio']['moteur1_en2'],
-                "moteur2_enB" : globalConfig['gpio']['moteur2_enB'],
-                "moteur2_en1" : globalConfig['gpio']['moteur2_en1'],
-                "moteur2_en2" : globalConfig['gpio']['moteur2_en2']
+#                "moteur1_enA" : globalConfig['gpio']['moteur1_enA'],
         }
 
 
@@ -116,19 +103,21 @@ def assets(filepath):
   return static_file(filepath, root='/home/pi/robotRelease/robotv1/assets/')
 
 
+    
 @route('/cmd/<cmd>')
 def controls(cmd):
 
+  if cmd == "restart":
+    subprocess.run(["sudo", "shutdown", "-r", "now"])   
+    
+  if cmd == "shutdown":
+    subprocess.run(["sudo", "shutdown", "-h", "now"])    
+    
+    
   if globalConfig['general']['dir'] != cmd:
     globalConfig['general']['dir'] = cmd
-#    print ("cmd=:"+cmd)
     
-    # ancien mode avec GPIO
-    #threading.Thread(target=action.action(cmd)).start()
-
-    #nouveau avec arduino et serial port via client_mqtt
     publish.single("robot/commande", cmd, hostname="localhost")
-    
     
   return ''
 

@@ -11,49 +11,52 @@
   <body>
 
 <div class="container">
+    <span class="right"><a class="pure-button pure-button-primary" onclick="restart()">Restart</a></span>
+    <span class="right"><a class="pure-button pure-button-primary" onclick="shutdown()">Shutdown</a></span>
+    
     <form method='post' action='settings' class="pure-form pure-form-aligned">
   <fieldset>
-<legend>GPIO moteur 1</legend>
-        <div class="pure-control-group">
-            <label for="moteur1_enA">enA</label>
-            <input name="moteur1_enA" id="moteur1_enA" class="pure-input-1-4" type="text" placeholder="XX" value={{!moteur1_enA}}>
-        </div>
-        <div class="pure-control-group">
-            <label for="moteur1_en1">en1</label>
-            <input name="moteur1_en1" id="moteur1_en1" class="pure-input-1-4" type="text" placeholder="XX" value={{!moteur1_en1}}>
-        </div>
-        <div class="pure-control-group">
-            <label for="moteur1_en2">en2</label>
-            <input name="moteur1_en2" id="moteur1_en2" class="pure-input-1-4" type="text" placeholder="XX" value={{!moteur1_en2}}>
-        </div>
-<legend>GPIO moteur 2</legend>
-        <div class="pure-control-group">
-            <label for="moteur2_enB">enB</label>
-            <input name="moteur2_enB" id="moteur2_enB" class="pure-input-1-4" type="text" placeholder="XX" value={{!moteur2_enB}}>
-        </div>
-        <div class="pure-control-group">
-            <label for="moteur2_en1">en1</label>
-            <input name="moteur2_en1" id="moteur2_en1" class="pure-input-1-4" type="text" placeholder="XX" value={{!moteur2_en1}}>
-        </div>
-        <div class="pure-control-group">
-            <label for="moteur2_en2">en2</label>
-            <input name="moteur2_en2" id="moteur2_en2" class="pure-input-1-4" type="text" placeholder="XX" value={{!moteur2_en2}}>
-        </div>
-
-<legend>divers</legend>
+<legend>Config</legend>
         <div class="pure-control-group">
             <label for="vitesse">vitesse</label>
-            <input name="vitesse" id="vitesse" class="pure-input-1-4" type="text" placeholder="XX" value={{!vitesse}}>
+            <input name="vitesse" id="vitesse" class="pure-input-1" type="text" placeholder="XX" value={{!vitesse}}>
         </div>
+      
+
+
 
 
   </fieldset>
     <span class="left"><input type='submit' value='save' class="pure-button pure-button-primary"/></span>
- <span class="right"><a class="pure-button pure-button-primary" href="/">Retour</a></span>
+    <span class="right"><a class="pure-button pure-button-primary" href="/">Retour</a></span>
 
 </form>
 </div>
 
+<script>
+function ajaxRequest(url, callback = function(){}) {
+    var xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function() {
+      callback(xhr);
+    };
+    xhr.open("GET", url, true);
+    xhr.send(null);
+  }
 
+function restart()
+{
+    var r = confirm("restart ?");
+  if (r == true) {
+	ajaxRequest("/cmd/restart", function(xhr){})
+  }
+}
+function shutdown()
+{
+    var r = confirm("shutdown ?");
+  if (r == true) {
+	ajaxRequest("/cmd/shutdown", function(xhr){})
+  }
+}
+    </script>
   </body>
 </html>
