@@ -20,6 +20,9 @@
 </div>
         
 <span class="left">
+    <table>
+  <tr>
+<td>
 <table>
   <tr>
 <td class=""></td>
@@ -37,7 +40,42 @@
 <td class=""> </td>
   </tr>
 </table>
-        </span>
+      </td>
+        </tr>
+    
+  <tr>
+      <td> </td>
+  </tr>
+  <tr>
+      <td>------</td>
+  </tr>
+  <tr>
+      <td> </td>
+  </tr>
+
+        <tr>
+    <td>
+        
+<table>        
+    <tr>
+<td class=""></td>
+<td class=""><button type="button" onclick="up()">haut</button></td>
+<td class=""> </td>
+  </tr>
+  <tr>
+<td class=""><button type="button" onclick="left()">gauche</button></td>
+<td></td>
+<td class=""><button type="button" onclick="right()">droite</button></td>
+  </tr>
+  <tr>
+<td class=""></td>
+<td class=""><button type="button" onclick="down()">bas</button></td>
+<td class=""> </td>
+  </tr>
+</table>
+            </td></tr>
+</table>
+       </span>  
         
         
 		<script>
